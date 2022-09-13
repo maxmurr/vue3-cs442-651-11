@@ -31,22 +31,14 @@
 
     <div class="p-4 mt-8 bg-blue-200">
       (Preview)
-
-      <div class="block p-2 mt-4 border-2 border-blue-700 rounded">
-      <h3 class="text-xl">{{ reward.name }}</h3>
-      <p>{{ reward.point }}</p>
-      <span>Detail</span>
-      <button class="p-2 bg-blue-200 border-2 border-blue-400 rounded-xl">
-        Redeem
-      </button>
-    </div>
+      <RewardCard :reward="{...reward}"></RewardCard>
+      
     </div>
   </div>
 </template>
 
 <script>
-import Axios from 'axios'
-
+import RewardCard from '@/components/rewards/RewardCard.vue'
 export default {
   data() {
     return {
@@ -58,16 +50,15 @@ export default {
       } 
     }
   }, 
-  
+  components: {
+    RewardCard
+  },
   methods: {
     async saveNewReward() {
-
-      
       try {
-        const url = "http://localhost/api/rewards"
         this.reward.balance = this.reward.total_amount
         this.reward.is_active = true
-        const response = await Axios.post(url, this.reward)
+        const response = await this.$axios.post('/rewards', this.reward)
         if (response.status == 201) {
           if (response.data.success) {
             let reward_id = response.data.reward_id
@@ -75,7 +66,7 @@ export default {
           }
         }
       } catch(error) {
-        
+        console.log(error)
       }
     }
   }
