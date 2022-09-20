@@ -25,11 +25,22 @@
      class="p-2 bg-yellow-200 border-2 border-blue-400 rounded-xl">
       {{ likeCount }} Likes
     </button>
+
+    <button @click="onClickCounter()"
+     class="p-2 mx-8 bg-green-200 border-2 border-blue-400 rounded-xl">
+      {{ counter_store.counter }} |
+      {{ counter_store.doubleCount }}
+    </button> 
   </div>
 </template>
 
 <script>
+import { useCounterStore } from '@/stores/counter.js'
 export default {
+  setup() {
+    const counter_store = useCounterStore()
+    return { counter_store }
+  },
   data() {
     return {
       likeCount: 0
@@ -45,6 +56,9 @@ export default {
   methods: {
     onClickLike() {
       this.likeCount++;
+    },
+    onClickCounter() {
+      this.counter_store.increment()
     },
     onClickButton() {
       if (this.url != '') {
