@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
 })
 
 const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
-const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY);
+const token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
 
 axiosInstance.defaults.headers.common['Accept'] = 'application/json;charset=UTF-8';
 axiosInstance.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
@@ -26,6 +26,10 @@ export const authAPI = {
     return false
   },
   async me () {
+    const _token = localStorage.getItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+    if (_token) {
+      axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + _token
+    }
     const response = await axiosInstance.post('/auth/me')
     if (response.status == 200) {
       return response.data.data

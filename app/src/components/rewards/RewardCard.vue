@@ -10,27 +10,25 @@
     <div class="">
       <slot></slot>
     </div>
-    
-    <router-link v-if="url != ''" :to="url">Detail</router-link>
-    
-    <span class="underline " 
-          :class="url == '' ? 'cursor-auto': 'cursor-pointer my-color'"
-          @click="onClickButton()">Detail</span>
-    <button @click="onClickButton()"
-     class="p-2 bg-blue-200 border-2 border-blue-400 rounded-xl">
-      Redeem
-    </button>
 
-    <button @click="onClickLike()"
-     class="p-2 bg-yellow-200 border-2 border-blue-400 rounded-xl">
-      {{ likeCount }} Likes
-    </button>
+    <div class="grid grid-cols-2">
+      <button @click="onClickButton()"
+      class="p-2 mx-4 bg-blue-200 border-2 border-blue-400 rounded-xl">
+        Redeem
+      </button>
+      <div class="grid grid-cols-2">
+        <button @click="onClickLike()"
+        class="p-2 mx-4 bg-yellow-200 border-2 border-blue-400 rounded-xl">
+          {{ likeCount }} Likes
+        </button>
 
-    <button @click="onClickCounter()"
-     class="p-2 mx-8 bg-green-200 border-2 border-blue-400 rounded-xl">
-      {{ counter_store.counter }} |
-      {{ counter_store.doubleCount }}
-    </button> 
+        <button @click="onClickCounter()"
+        class="p-2 mx-8 bg-green-200 border-2 border-blue-400 rounded-xl">
+          {{ counter_store.counter }} |
+          {{ counter_store.doubleCount }}
+        </button> 
+      </div>
+    </div>
   </div>
 </template>
 
