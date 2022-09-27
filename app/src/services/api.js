@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost/api'
+  baseURL: 'https://cs442-651-77711.loca.lt/api'
 })
 
 const JWT_TOKEN_LOCALSTORAGE_KEY = 'jwt_token'
