@@ -43,12 +43,18 @@
 import RewardCard from '@/components/rewards/RewardCard.vue'
 import { useRewardStore } from '@/stores/reward.js'
 import { useAuthStore } from '@/stores/auth.js'
+import SocketioService from '@/services/socketio.js'
 
 export default {
   setup() {
     const reward_store = useRewardStore()
     const auth_store = useAuthStore()
     return { reward_store, auth_store }
+  },
+  created() {
+    SocketioService.setupSocketConnection()
+    SocketioService.getSocket().on('rewards.index', 
+                          this.refreshSocketRewards)
   },
   data() {
     return {
@@ -81,19 +87,26 @@ export default {
     selectReward(reward) {
       console.table(reward)
       this.$router.push(`rewards/${reward.id}`)
+    },
+    async refreshSocketRewards(data) {
+      if (data.refresh) {
+        await this.refreshRewards()
+      }
+    },
+    async refreshRewards() {
+      await this.reward_store.fetch()
+      this.sortOption = 'default'
+      this.rewards = this.reward_store.getRewards
     }
   },
   async mounted() {
     try {
       this.error = null
-      await this.reward_store.fetch()
-      this.rewards = this.reward_store.getRewards
+      await this.refreshRewards()
     } catch(error) {
       console.log(error)
       this.error = error.message
     }
-    
-    
   }
 }
 </script>
